@@ -90,6 +90,45 @@ xray-ml-platform/
 - GitHub: [@Mizuinu30](https://github.com/Mizuinu30)
 - LinkedIn: [@juan-silva-rubio](https://linkedin.com/in/juan-silva-rubio)
 
+## 🔐 Secrets & Kaggle API
+
+This project uses the Kaggle API for dataset access. Keep credentials out of source control.
+
+To create a local environment file for development:
+
+1. Create `backend/.env` in the project root (this file is already ignored by `.gitignore`):
+
+```bash
+mkdir -p backend
+cat > backend/.env <<'ENV'
+KAGGLE_USERNAME=your_kaggle_username
+KAGGLE_KEY=your_kaggle_key
+ENV
+```
+
+2. Secure the file permissions (optional but recommended):
+
+```bash
+chmod 600 backend/.env
+```
+
+3. Access the variables in Python with `os.getenv("KAGGLE_USERNAME")` and `os.getenv("KAGGLE_KEY")`.
+
+Production / CI recommendations
+
+- GitHub Actions / CI: Use GitHub Secrets to store `KAGGLE_USERNAME` and `KAGGLE_KEY` and expose them to workflows as environment variables. Do not store secrets in the repository.
+- GitHub Secrets example (in your workflow):
+
+```yaml
+env:
+	KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+	KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+```
+
+- Vault / Secrets Manager: For more secure production deployments, use a dedicated secrets manager (HashiCorp Vault, AWS Secrets Manager, GCP Secret Manager) and fetch credentials at runtime instead of shipping them in files.
+
+Security reminder: Do not commit `backend/.env`, `~/.kaggle/kaggle.json`, or any other secret files to Git. Rotate your Kaggle API key if it is ever exposed.
+
 ## 🤝 Contributing
 
 This is a research project and contributions are welcome. Please ensure any additions maintain the research-only nature of the platform.
