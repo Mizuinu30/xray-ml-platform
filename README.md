@@ -129,6 +129,57 @@ env:
 
 Security reminder: Do not commit `backend/.env`, `~/.kaggle/kaggle.json`, or any other secret files to Git. Rotate your Kaggle API key if it is ever exposed.
 
+## ⚙️ CI & Running Training Locally
+
+We include a lightweight GitHub Actions CI workflow that runs unit tests and the dataset explorer without downloading large datasets. This keeps CI fast while validating core project logic.
+
+Quick CI notes
+- Workflow path: `.github/workflows/ci.yml`  
+- What it runs: unit tests (`backend/training/tests`) and the safe dataset explorer (`backend/training/download_dataset.py`)  
+- It intentionally does NOT install heavy ML packages (TensorFlow, etc.) — those are kept in a separate requirements file.
+
+Run CI locally (recommended)
+1. Run the unit tests in your venv:
+
+```bash
+source backend/venv/bin/activate
+python -m unittest discover -v backend/training/tests
+```
+
+2. Run the dataset explorer (safe — it will not download unless you pass --download):
+
+```bash
+# explores any files under backend/data/raw
+python backend/training/download_dataset.py
+```
+
+Install full training dependencies (optional)
+
+If you want to run training locally (this will install heavier packages like TensorFlow), use the dedicated training requirements file:
+
+```bash
+source backend/venv/bin/activate
+pip install -r backend/requirements-training.txt
+```
+
+Then run the full setup helper (installs packages and creates directories):
+
+```bash
+python backend/setup_training.py
+```
+
+Start training
+
+Once dependencies are installed and the dataset is available (either downloaded via Kaggle or placed into `backend/data/raw`), start training:
+
+```bash
+python backend/training/train_pneumonia.py
+```
+
+Notes and safety
+- If you run the training script on a machine without a GPU, training may be slow. Consider running on Colab or a cloud instance with GPU.  
+- The training requirements are intentionally separated from CI/test requirements to keep CI fast and low-cost.
+
 ## 🤝 Contributing
 
 This is a research project and contributions are welcome. Please ensure any additions maintain the research-only nature of the platform.
