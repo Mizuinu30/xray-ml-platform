@@ -3,6 +3,7 @@
 ![Research Use Only](https://img.shields.io/badge/Purpose-Research%20Only-red)
 ![Backend](https://img.shields.io/badge/Backend-FastAPI-009688)
 ![Frontend](https://img.shields.io/badge/Frontend-React-61DAFB)
+[![Run on Google Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Mizuinu30/xray-ml-platform/blob/main/docs/colab_download_dataset.ipynb)
 
 ## 🚨 Research & Development Only
 
